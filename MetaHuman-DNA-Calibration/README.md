@@ -1,186 +1,844 @@
-# Important Note
-This repository has not been updated to support MetaHuman characters created in MetaHuman Creator in Unreal Engine 5.6.
-Characters created in Unreal Engine 5.6 should be edited using the new MetaHuman for Maya plugin, available for download on Fab.
-This repository remains compatible with characters created in Unreal Engine 5.5 or earlier.
+# 🧬 MetaHuman-DNA-Lab
 
-# MetaHuman DNA Calibration
-MetaHuman DNA Calibration is a set of tools used for working with MetaHuman DNA files, bundled into a single package.
-[`DNA`](/docs/dna.md#metahuman-dna) is an integral part of [MetaHuman](https://www.unrealengine.com/en-US/metahuman) identity.
-DNA files are created with [MetaHuman Creator](https://metahuman.unrealengine.com/) and downloaded with 
-[Quixel Bridge](https://docs.metahuman.unrealengine.com/en-US/downloading-metahumans-with-quixel-bridge/), and Bifrost in UE5.
-
-MetaHuman DNA Calibration is a set of tools used for working with MetaHuman DNA files, bundled into a single package. We wanted to share this code to help users customize DNA files so they can better integrate the characters they create into their games and experiences.
-MetaHuman DNA Calibration tools are provided in a GitHub repository located at this address.
+> **An experimental Digital Human Intelligence platform for MetaHuman DNA analysis, calibration, AI-assisted character customization, facial intelligence, rigging automation, and future neural digital-human research.**
 
 
-# Overview
-For an explanation about how the repository is organized, [click here](docs/repository_organization.md).
-
-The MetaHuman DNA Calibration repository contains two distinct tools:
-- [DNACalib](docs/dnacalib.md) (and its dependencies) 
-- [DNAViewer](docs/dna_viewer.md)
 
 
-## Required Knowledge
-To use these tools, you should be familiar with:
-- Rigging in Maya
-- Python
+\
 
-## Optional Knowledge
-- C++ (for [DNACalib](docs/dnacalib.md) and its [API](docs/dnacalib_api.md))
+---
 
+## 🧠 Project Vision
 
-## DNACalib
-[DNACalib](docs/dnacalib.md) and its [API](docs/dnacalib_api.md) are used to inspect and modify DNA files. With [DNACalib](docs/dnacalib.md), you can make the following changes in DNA files:
-- Rename joints, meshes, blendshapes, and / or animated maps.
-- Remove joints, meshes, and / or joint animation.
-- Rotate, scale, and translate the rig.
-- Remove LODs.
-- Change neutral joint positions, neutral mesh positions, and blendshape delta values.
-- Prune blendshapes.
-- Remove all blend shape data.
+**MetaHuman-DNA-Lab** is being developed as an experimental research and engineering platform for studying the connection between:
 
-An overview of the MetaHuman DNA file format can be found [`here`](/docs/dna.md).
-
-**Note**: DNACalib library allows removal and renaming of any joint. However, the following joints are used for connecting head with body and should not be removed or renamed: neck_01, neck_02, FACIAL_C_FacialRoot.
-
-## External Software Dependencies
-DNACalib's Python wrapper is compiled against Python 3.7 and 3.9. Pre-compiled binaries for Windows and Linux (both 64-bit) are part of the repository.
-If you are using a different version of Python, you must recompile it. Any Python 3 version should be fine.
-If a user has a different platform or architecture, the library and its dependencies must be compiled.
-
-**Important**
-DNA files are stored as [LFS (Large File Storage)](https://git-lfs.github.com/) files. They are downloaded with the rest of the code if 
-git-lfs is installed and configured to use. If you are not using git-lfs, you have to download DNA files manually. 
-
-Additional information can be found [here](docs/faq.md#fix--runtimeerror--error-loading-dna--dna-signature-mismatched-expected-dna-got-ver-)
-
-**Warning:** 
-Python 2 is not supported.
-
-DNACalib can be used in C++ projects as a C++ library.
-
-DNACalib Python wrapper can be used in Python 3.7 and 3.9, `mayapy` (Python interpreter shipped with Maya) shipped with Maya.
-Supported Maya versions are 2022 and 2023.
-
-Note: Maya 2022 is bundled with Python 3.7, Maya 2023 is bundled with Python 3.9.   
-
-## Environment Setup
-
-In order to use MetaHuman DNA Calibration in your scripts, you need to:
-- have Python3 installed, see [note](README.md#external-software-dependencies),
-- add MetaHuman DNA Calibration location to `MAYA_MODULE_PATH` system variable (if you want to use MetaHuman DNA Calibration in Maya)
-
-
-If you plan to run the script from command line:
-
-- in case of Maya's interpreter (mayapy) you will have to initialize maya with:
-
-```python
-import maya.standalone 
-maya.standalone.initialize()
+```text
+Human Appearance
+       ↓
+Computer Vision
+       ↓
+AI / Machine Learning
+       ↓
+Digital Human Representation
+       ↓
+MetaHuman DNA
+       ↓
+Facial Rig / Character
+       ↓
+Animation / Interaction
 ```
 
-- in case of python interpreter you will have to add the following on top of your script: 
-```python
-from os import path as ospath
-from sys import path as syspath
-from sys import platform
+The project currently builds upon the capabilities of **MetaHuman DNA Calibration**, while the long-term goal is to develop additional AI, computer-vision, automation, analysis, and research components around digital-human representations.
 
-ROOT_DIR = f"{ospath.dirname(ospath.abspath(__file__))}/..".replace("\\", "/")
-MAYA_VERSION = "2022"  # or 2023
-ROOT_LIB_DIR = f"{ROOT_DIR}/lib/Maya{MAYA_VERSION}"
-if platform == "win32":
-    LIB_DIR = f"{ROOT_LIB_DIR}/windows"
-elif platform == "linux":
-    LIB_DIR = f"{ROOT_LIB_DIR}/linux"
-else:
-    raise OSError(
-        "OS not supported, please compile dependencies and add value to LIB_DIR"
-    )
+The ultimate research direction is:
 
-# Adds directories to path
-syspath.insert(0, ROOT_DIR)
-syspath.insert(0, LIB_DIR)
+> **Towards an intelligent, editable, measurable, and AI-driven digital-human representation system.**
+
+---
+
+# ⚠️ Current Compatibility
+
+The underlying MetaHuman DNA Calibration codebase has compatibility limitations with newer MetaHuman workflows.
+
+This repository currently focuses on the existing DNA Calibration architecture and compatible MetaHuman pipelines.
+
+For characters created using newer MetaHuman workflows, compatibility should be verified against the current MetaHuman / Maya tooling before attempting calibration.
+
+---
+
+# 🎯 Current Status
+
+## Base System
+
+The current repository is based on the MetaHuman DNA Calibration ecosystem and provides functionality around:
+
+* MetaHuman DNA files
+* DNA inspection
+* DNA modification
+* Joint manipulation
+* Mesh manipulation
+* Blendshape manipulation
+* LOD manipulation
+* Rig calibration
+* Maya integration
+* DNAViewer
+* DNACalib
+* Python automation
+* C++ library support
+* Example DNA workflows
+
+### Current Development Stage
+
+```text
+Original DNA Calibration Foundation
+              │
+              ▼
+      MetaHuman-DNA-Lab
+              │
+              ├── DNA Analysis
+              ├── DNA Validation
+              ├── AI Integration
+              ├── Computer Vision
+              ├── Maya Automation
+              └── Research Framework
 ```
 
-NOTE: 
-If running on Linux, please make sure to append the LD_LIBRARY_PATH with absolute path to the `lib/Maya2022/linux` or `lib/Maya2023/linux` directory before running the example: 
- - `export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:<path-to-lib-linux-dir>`
+---
 
-## DNAViewer
-With DNAViewer, you can:
-- Create functional rigs for Maya.
-- Export FBX files.
-- Read internal parts of DNA files.
+# 🔬 What I Am Updating First
 
-DNAViewer can be used in `mayapy` (Python interpreter shipped with Maya) or in Maya 2022, except [Propagating changes from Maya scene to dna](/examples/dna_viewer_grab_changes_from_scene_and_propagate_to_dna.py) which can be used just in Maya.
+The first development stage is **not** to immediately build a huge AI model.
 
-# Examples
-Several Python examples are provided for reference and can be found in the **examples'** folder:
-- [Showcase a few commands](/examples/dnacalib_demo.py)
-- [Rename a joint](/examples/dnacalib_rename_joint_demo.py)
-- [Create a small DNA from scratch](/examples/dna_demo.py)
-- [Read binary DNA and write it in a human readable format](/examples/dna_binary_to_json_demo.py)
-- [Create a new DNA from an existing one by extracting specific LODs](/examples/dnacalib_lod_demo.py)
-- [Remove a joint](/examples/dnacalib_remove_joint.py)
-- [Clear blend shape data](/examples/dnacalib_clear_blend_shapes.py)
-- [Subtract values from neutral mesh](/examples/dnacalib_neutral_mesh_subtract.py)
-- [Simple UI in Maya](examples/dna_viewer_run_in_maya.py) and some [documentation](docs/dna_viewer.md#usage-in-maya) for it
-- [Generates rig](/examples/dna_viewer_build_rig.py)
-- [Export FBX per LOD](/examples/dna_viewer_export_fbx.py)
-- [Propagating changes from Maya scene to dna](/examples/dna_viewer_grab_changes_from_scene_and_propagate_to_dna.py)
-- [Generate face rig with textures](/examples/dna_viewer_build_rig_with_textures.py)
+The first goal is to understand, organize, test, and extend the DNA pipeline.
 
-Note: Examples are grouped in three groups: DNA, DNACalib, and DNAViewer. These names are embedded as prefixes: dna_, dnacalib_, and dna_viewer_.   
+## Phase 1 — DNA Intelligence Layer
 
-## Example DNA files
-[Two demo DNA files](data/dna_files) are provided for easier testing of this tool. Any DNA generated with [MetaHumanCreator](https://www.unrealengine.com/en-US/metahuman)
-should work.
+### Planned updates
 
-The MHC 2023 spring release introduced changes to the rig definition (number of joints increased as well as the number of expressions).
-In order to accommodate those changes, we added several files to the repository in `/data/mh4` folder: new [gui scene](/data/mh4/gui.ma), updated [assemble script](/data/mh4/additional_assemble_script.py) and example of Ada’s [DNA file](data/mh4/dna_files/Ada.dna).
-If a user wants to switch and use this new rig version it is necessary to update paths in their scripts:
-```python
-GUI = f"{DATA_DIR}/mh4/gui.ma"
-ADDITIONAL_ASSEMBLE_SCRIPT = f"{DATA_DIR}/mh4/additional_assemble_script.py"
+* [ ] DNA metadata analyzer
+* [ ] DNA version detector
+* [ ] DNA compatibility checker
+* [ ] Joint hierarchy analyzer
+* [ ] Mesh statistics analyzer
+* [ ] Blendshape statistics
+* [ ] LOD analysis
+* [ ] Expression analysis
+* [ ] DNA validation system
+* [ ] Automated DNA report generation
+* [ ] DNA comparison between characters
+* [ ] Before/after calibration comparison
+
+Example:
+
+```text
+DNA ANALYSIS REPORT
+────────────────────────────
+Character        : Ada
+DNA Version      : MH.4
+Joints           : ...
+Meshes           : ...
+Blendshapes      : ...
+Expressions      : ...
+LODs             : ...
+Compatibility    : PASS
+Validation       : PASS
 ```
 
-In case character DNA is downloaded from [Quixel Bridge](https://quixel.com/bridge) and we are not sure which rig definition is used, it can be checked with following code:
-```python
-from dna import (
-    BinaryStreamReader,
-    DataLayer_All,
-    FileStream,
-    Status,
-)
+---
 
-def load_dna_reader(dna_file):
-    stream = FileStream(
-        dna_file, FileStream.AccessMode_Read, FileStream.OpenMode_Binary
-    )
-    reader = BinaryStreamReader(stream, DataLayer_All)
-    reader.read()
-    if not Status.isOk():
-        status = Status.get()
-        raise RuntimeError(f"Error loading DNA: {status.message}")
-    return reader
+# 🧬 Phase 2 — Advanced DNA Calibration
 
-character_dna = "path_to/character.dna"
-reader = load_dna_reader(character_dna)
-if reader.getDBName() == "MH.4":
-  print("Use mh4 folder")
-elif reader.getDBName() == "DHI":
-  print("Use data folder")
-else:
-  print("Unsupported rig definition!")
+The next stage will improve the existing calibration workflow.
+
+### Planned capabilities
+
+* [ ] Automated joint calibration
+* [ ] Automated mesh calibration
+* [ ] Blendshape optimization
+* [ ] Facial symmetry analysis
+* [ ] LOD optimization
+* [ ] Expression consistency checking
+* [ ] Rig quality scoring
+* [ ] DNA cleanup
+* [ ] DNA parameter comparison
+* [ ] Batch DNA processing
+* [ ] Automated calibration pipelines
+
+Goal:
+
+```text
+Manual Calibration
+       ↓
+Semi-Automated Calibration
+       ↓
+Automated Calibration
 ```
 
-# Notes
-If a user runs examples in Maya, the value for `ROOT_DIR` should be changed and absolute paths must be used, 
-e.g. `c:/MetaHuman-DNA-Calibration` in Windows or `/home/user/MetaHuman-DNA-Calibration` in Linux. Important: Use `/` (forward slash), Maya uses forward slashes in path.
+---
 
-See the [FAQ guide](docs/faq.md) for additional specifications.
+# 👁️ Phase 3 — Computer Vision Layer
 
-# License
-MetaHuman DNA Calibration is released with [licence](LICENSE).
+My existing interest in AI, ML, biomedical vision, and image-based analysis can be extended into digital-human facial intelligence.
+
+## Planned System
+
+```text
+Face Image
+    ↓
+Face Detection
+    ↓
+Facial Landmarks
+    ↓
+Face Geometry
+    ↓
+Feature Extraction
+    ↓
+Digital-Human Parameters
+    ↓
+MetaHuman DNA
+```
+
+### Planned features
+
+* [ ] Face detection
+* [ ] Facial landmark detection
+* [ ] Head pose estimation
+* [ ] Facial symmetry analysis
+* [ ] Expression recognition
+* [ ] Face embedding extraction
+* [ ] Facial geometry estimation
+* [ ] Face-to-parameter mapping
+* [ ] Image-to-digital-human experiments
+
+---
+
+# 🤖 Phase 4 — AI-Powered MetaHuman Controller
+
+A future goal is to allow users to control digital-human properties using natural language.
+
+Example:
+
+```text
+User:
+"Make the face slightly older and increase the jaw width."
+
+             ↓
+
+AI Intent Parser
+
+             ↓
+
+Parameter Mapping
+
+             ↓
+
+DNA Modification
+
+             ↓
+
+DNACalib
+
+             ↓
+
+Maya
+
+             ↓
+
+Updated Digital Human
+```
+
+### Planned capabilities
+
+* [ ] Natural-language character editing
+* [ ] AI parameter selection
+* [ ] AI-assisted DNA calibration
+* [ ] Intelligent rig modification
+* [ ] Prompt-to-character transformation
+* [ ] AI-generated calibration suggestions
+* [ ] Character configuration assistant
+
+---
+
+# 🧠 Phase 5 — Neural DNA Mapping
+
+This is one of the main future research directions.
+
+The objective is to investigate whether a neural model can learn the relationship between facial observations and editable digital-human parameters.
+
+```text
+                    Face Image
+                        │
+                        ▼
+                Vision Encoder
+                        │
+                        ▼
+                 Latent Space
+                        │
+                        ▼
+              DNA Parameter Model
+                        │
+                        ▼
+                 MetaHuman DNA
+                        │
+                        ▼
+                  Digital Human
+```
+
+### Research Questions
+
+1. Can facial images predict useful MetaHuman parameters?
+2. Can facial landmarks improve DNA parameter prediction?
+3. Can a neural representation preserve identity?
+4. Can the model separate identity from expression?
+5. Can predicted parameters produce realistic facial deformation?
+6. How accurately can a 2D image be mapped into an editable digital-human representation?
+
+---
+
+# 🧬 Phase 6 — Digital Human Genome
+
+A long-term abstraction of this project is a generalized **Digital Human Genome**.
+
+Instead of treating DNA only as a file format, the project will investigate a higher-level representation of digital humans.
+
+```text
+Digital Human Genome
+│
+├── Identity
+├── Facial Geometry
+├── Skeletal Structure
+├── Expressions
+├── Blendshapes
+├── Body Parameters
+├── Rig Parameters
+├── Animation Parameters
+└── Appearance Parameters
+```
+
+The purpose is to investigate whether different digital-human components can be represented through a unified computational structure.
+
+---
+
+# 🔗 Connection With My Existing Projects
+
+This project is intended to become part of a broader research portfolio rather than remaining an isolated MetaHuman utility.
+
+## 🤖 AGI / Intelligent Systems
+
+### SAGI
+
+My broader AGI-oriented work can contribute ideas for:
+
+* intelligent agents
+* reasoning systems
+* human-computer interaction
+* multimodal AI
+* autonomous character control
+
+Future direction:
+
+```text
+SAGI
+  ↓
+Digital Human Agent
+  ↓
+Perception + Reasoning + Action
+```
+
+---
+
+# ❤️ Biomedical AI Connection
+
+My biomedical AI projects such as:
+
+* **CardioAGI-X**
+* **Skin Cancer Detection with HAM10000**
+* **Sperm Detection / Male Infertility Analysis**
+
+have focused on:
+
+* computer vision
+* medical image analysis
+* classification
+* feature extraction
+* deep learning
+* AI-assisted reasoning
+
+These experiences can contribute technical methods to the Computer Vision and AI layers of this project.
+
+> Biomedical models will remain separate research systems unless a scientifically justified connection is established.
+
+---
+
+# 🧠 Brain–Computer Interface Direction
+
+A longer-term research possibility is exploring interaction between:
+
+```text
+Human
+  ↓
+BCI / Neural Interface
+  ↓
+AI Interpretation
+  ↓
+Digital Human
+  ↓
+Avatar / Character
+```
+
+Potential future research:
+
+* [ ] BCI-controlled avatar experiments
+* [ ] Neural signal → character control
+* [ ] Expression intent → digital-human expression
+* [ ] Human-AI avatar interaction
+
+This is a future research direction, not a current implemented feature.
+
+---
+
+# 🚀 Space Intelligence Connection
+
+My space-intelligence research direction may eventually contribute to autonomous digital-human interfaces for:
+
+* simulation environments
+* astronaut training
+* virtual mission assistants
+* intelligent avatars
+* human-AI interaction in simulated environments
+
+Potential architecture:
+
+```text
+Space Intelligence
+       ↓
+AI Agent
+       ↓
+Digital Human Interface
+       ↓
+Human Interaction
+```
+
+---
+
+# 🔬 Research Benchmark
+
+A major future objective is to make the project experimentally measurable.
+
+Instead of only demonstrating a working character, the system should measure its performance.
+
+## Proposed Metrics
+
+### Face Reconstruction
+
+* Landmark Error
+* Vertex Error
+* Geometric Similarity
+
+### Identity
+
+* Face Embedding Similarity
+* Identity Preservation
+
+### Expression
+
+* Expression Accuracy
+* Blendshape Prediction Error
+
+### Rigging
+
+* Deformation Error
+* Joint Consistency
+
+### AI
+
+* Parameter Prediction Error
+* Inference Time
+* Model Size
+
+---
+
+# 🧪 Experimental Framework
+
+Future experiments will compare:
+
+```text
+Baseline
+   ↓
+Traditional Calibration
+   ↓
+ML-Based Method
+   ↓
+Deep Learning Method
+   ↓
+Proposed Method
+```
+
+Example:
+
+```text
+Method              Landmark Error
+──────────────────────────────────
+Baseline            TBD
+Traditional         TBD
+ML Model            TBD
+Deep Model          TBD
+Proposed Model      TBD
+```
+
+The actual values will only be added after reproducible experiments.
+
+---
+
+# 📊 Dataset Strategy
+
+Future research may require datasets containing combinations of:
+
+* facial images
+* facial landmarks
+* 3D face information
+* expressions
+* identity information
+* digital-human parameters
+* MetaHuman-compatible representations
+
+### Dataset Pipeline
+
+```text
+Raw Data
+   ↓
+Cleaning
+   ↓
+Face Detection
+   ↓
+Landmark Extraction
+   ↓
+Normalization
+   ↓
+Feature Extraction
+   ↓
+Training Dataset
+   ↓
+Validation Dataset
+   ↓
+Test Dataset
+```
+
+---
+
+# 🧠 Future AI Architecture
+
+The long-term architecture is envisioned as:
+
+```text
+                   DIGITAL HUMAN INTELLIGENCE
+                              │
+             ┌────────────────┴────────────────┐
+             │                                 │
+       Human Input                         DNA Input
+             │                                 │
+      ┌──────┴──────┐                    ┌─────┴─────┐
+      │             │                    │           │
+   Image          Text              DNA Parser    DNAViewer
+      │             │                    │           │
+      └──────┬──────┘                    └─────┬─────┘
+             │                                 │
+             └────────────┬────────────────────┘
+                          ↓
+                  AI Reasoning Layer
+                          ↓
+               Digital Human Genome
+                          ↓
+                 DNA Parameter Model
+                          ↓
+                       DNACalib
+                          ↓
+                     Maya Pipeline
+                          ↓
+                  Digital Human
+                          ↓
+                 Evaluation Engine
+                          ↓
+                 Research Benchmark
+```
+
+---
+
+# 🏗️ Planned Repository Architecture
+
+```text
+MetaHuman-DNA-Lab/
+│
+├── core/
+│   ├── dna_parser/
+│   ├── dna_analyzer/
+│   ├── dna_validator/
+│   └── dna_converter/
+│
+├── dnacalib/
+│
+├── dna_viewer/
+│
+├── ai/
+│   ├── face_encoder/
+│   ├── dna_predictor/
+│   ├── expression_model/
+│   └── llm_controller/
+│
+├── vision/
+│   ├── face_detection/
+│   ├── landmarks/
+│   ├── pose/
+│   └── reconstruction/
+│
+├── maya/
+│   ├── rigging/
+│   ├── automation/
+│   └── exporters/
+│
+├── research/
+│   ├── datasets/
+│   ├── experiments/
+│   ├── benchmarks/
+│   ├── ablation/
+│   └── results/
+│
+├── examples/
+├── tests/
+├── scripts/
+├── docs/
+├── models/
+│
+├── requirements.txt
+├── README.md
+└── LICENSE
+```
+
+---
+
+# 🗺️ Development Roadmap
+
+## Stage 0 — Foundation
+
+* [x] Establish MetaHuman DNA Calibration repository
+* [x] Create MetaHuman-DNA-Lab repository
+* [x] Integrate existing DNA Calibration foundation
+* [x] Preserve original project structure and functionality
+
+## Stage 1 — DNA Intelligence
+
+* [ ] DNA analyzer
+* [ ] DNA validator
+* [ ] DNA version detector
+* [ ] DNA comparison
+* [ ] Automated reports
+
+## Stage 2 — Calibration Automation
+
+* [ ] Batch calibration
+* [ ] Rig optimization
+* [ ] Blendshape optimization
+* [ ] Automated validation
+
+## Stage 3 — Computer Vision
+
+* [ ] Face detection
+* [ ] Landmark extraction
+* [ ] Face representation
+* [ ] Expression analysis
+* [ ] Face-to-parameter mapping
+
+## Stage 4 — AI
+
+* [ ] AI character controller
+* [ ] Natural-language DNA editing
+* [ ] AI-assisted calibration
+* [ ] Neural DNA prediction
+
+## Stage 5 — Digital Human Genome
+
+* [ ] Unified digital-human representation
+* [ ] Identity representation
+* [ ] Expression representation
+* [ ] Geometry representation
+* [ ] Rig representation
+
+## Stage 6 — Research
+
+* [ ] Dataset
+* [ ] Baselines
+* [ ] Experiments
+* [ ] Benchmark
+* [ ] Ablation studies
+* [ ] Reproducibility pipeline
+
+## Stage 7 — Research Publication
+
+* [ ] Technical report
+* [ ] Research paper
+* [ ] Open-source benchmark
+* [ ] Reproducible experiments
+* [ ] Research demonstration
+
+---
+
+# 🏆 Long-Term Goal
+
+The long-term objective is not simply to create another MetaHuman editing tool.
+
+The goal is to investigate:
+
+> **How can AI learn, represent, reconstruct, modify, and intelligently control digital humans through an editable computational representation?**
+
+This project therefore sits at the intersection of:
+
+```text
+Artificial Intelligence
+        +
+Computer Vision
+        +
+Machine Learning
+        +
+Digital Humans
+        +
+Computer Graphics
+        +
+Rigging
+        +
+Human-Computer Interaction
+        +
+Generative AI
+```
+
+---
+
+# 🔭 Future Research Possibilities
+
+Potential future research topics include:
+
+1. **Image-to-Digital-Human Reconstruction**
+2. **Neural Digital Human Representations**
+3. **AI-Based Facial DNA Prediction**
+4. **Identity-Preserving Character Generation**
+5. **Expression-to-Rig Mapping**
+6. **Natural Language Character Editing**
+7. **Intelligent Facial Rig Optimization**
+8. **Digital Human Agents**
+9. **Multimodal Digital Human Intelligence**
+10. **BCI-to-Digital-Human Interaction**
+11. **Digital Humans for Simulation**
+12. **AI-Driven Virtual Human Systems**
+
+---
+
+# 📌 Research Philosophy
+
+This repository follows a simple development principle:
+
+```text
+Understand
+   ↓
+Measure
+   ↓
+Implement
+   ↓
+Experiment
+   ↓
+Compare
+   ↓
+Improve
+   ↓
+Publish
+```
+
+Features should not be considered research contributions simply because they work.
+
+A research contribution should ideally provide:
+
+* a clearly defined problem
+* a reproducible method
+* measurable evaluation
+* comparison with baselines
+* documented limitations
+* reproducible experiments
+
+---
+
+# ⚠️ Attribution
+
+This project builds upon the MetaHuman DNA Calibration ecosystem.
+
+The original MetaHuman DNA Calibration source code, documentation, dependencies, and intellectual property remain subject to their respective licenses and ownership.
+
+This repository should clearly distinguish:
+
+```text
+Original / Upstream Components
+            +
+My Modifications
+            +
+My Research Components
+            +
+My Experiments
+```
+
+Please review the applicable upstream license before redistributing modified components.
+
+---
+
+# 📚 Technologies
+
+### Current / Foundation
+
+* Python
+* C++
+* Autodesk Maya
+* MetaHuman
+* DNACalib
+* DNAViewer
+
+### Planned
+
+* PyTorch
+* OpenCV
+* Computer Vision
+* Deep Learning
+* Transformers / LLMs
+* Neural Networks
+* 3D Geometry Processing
+* Experiment Tracking
+* Benchmarking
+
+---
+
+# 👨‍🔬 Research Direction
+
+**MetaHuman-DNA-Lab** is part of a broader research direction exploring the intersection of:
+
+> **AI × Digital Humans × Computer Vision × Biomedical AI × Intelligent Systems × Human-Computer Interaction**
+
+The project is intended to evolve progressively from a DNA calibration and analysis toolkit into an experimental **Digital Human Intelligence research platform**.
+
+---
+
+# ⭐ Status
+
+**Current:** Foundation / Early Development
+
+**Near-Term Goal:**
+Build a robust DNA analysis, validation, and automation layer.
+
+**Mid-Term Goal:**
+Integrate computer vision and AI-based digital-human parameter prediction.
+
+**Long-Term Goal:**
+Develop and evaluate a unified intelligent digital-human representation and control framework.
+
+---
+
+# 📜 License
+
+See the repository license and the licenses of all upstream dependencies before using, modifying, or redistributing this project.
+
+---
+
+## 🚀 Vision
+
+```text
+MetaHuman DNA
+      ↓
+DNA Intelligence
+      ↓
+Computer Vision
+      ↓
+Neural Representation
+      ↓
+AI Reasoning
+      ↓
+Digital Human Genome
+      ↓
+Intelligent Digital Human
+```
+
+**This is the beginning of the Digital Human Intelligence Lab.**
